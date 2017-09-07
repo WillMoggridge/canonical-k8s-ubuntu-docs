@@ -1,0 +1,32 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: ubuntu-docs-core
+spec:
+  selector:
+    app: ubuntu-docs
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ubuntu-docs-core
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ubuntu-docs
+    spec:
+      containers:
+        - name: ubuntu-docs-core
+          image: willmoggridge/ubuntu-docs-test:ubuntu-core
+          ports:
+            - name: http
+              containerPort: 80
